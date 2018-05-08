@@ -1,0 +1,42 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'scala'
+
+group 'com.company.learning'
+jar {
+    baseName = 'apache-spark-for-java-developers-examples'
+    version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext.javaVersion = '1.8'
+ext.kafkaVersion = '1.1.0'
+ext.confluentVersion = '4.0.0'
+ext.slf4jVersion = '1.7.6'
+
+version = ext.kafkaVersion
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.apache.kafka', name: 'kafka_2.12', version: kafkaVersion
+    compile group: 'org.apache.kafka', name: 'connect-api', version: kafkaVersion
+    compile group: 'org.apache.kafka', name: 'connect-runtime', version: kafkaVersion
+    compile group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion
+    compile group: 'org.apache.kafka', name: 'kafka-streams', version: kafkaVersion
+
+//    compile group: 'org.schwering', name: 'irclib', version: '1.10'
+
+    compile 'org.scala-lang:scala-library:2.12'
+
+    compile group: 'io.confluent', name: 'kafka-avro-serializer', version: confluentVersion
+
+    compile group: 'org.slf4j', name:'slf4j-api', version: slf4jVersion
+    compile group: 'org.slf4j', name:'slf4j-log4j12', version: slf4jVersion
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
