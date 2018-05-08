@@ -1,4 +1,4 @@
-package com.phylosoft.learning.kafka.streams.dsl
+package com.phylosoft.learning.kafka.streams.dsl.apps
 
 import java.lang.Long
 import java.util.Properties
@@ -12,7 +12,7 @@ import org.apache.kafka.streams.state.KeyValueStore
 
 import scala.collection.JavaConverters.asJavaIterableConverter
 
-object WordCountApplicationScala {
+object WordCountAppScala {
 
         def main(args: Array[String]) {
                 val config: Properties = {

@@ -1,10 +1,11 @@
-package com.phylosoft.learning.kafka.streams.dsl;
+package com.phylosoft.learning.kafka.streams.dsl.apps;
 
 import com.phylosoft.learning.kafka.drivers.NothingEventDriver;
+import com.phylosoft.learning.kafka.streams.dsl.StreamExecutor;
 
 import java.util.UUID;
 
-public class KStreamTo {
+public class KStreamToApp {
 
     public static void main(String[] args) {
 
