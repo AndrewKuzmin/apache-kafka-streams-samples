@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.phylosoft.learning.kafka.streams.kstream.interactivequeries;
+package com.phylosoft.learning.kafka.streams.kstream.interactivequeries.common;
 
+import com.phylosoft.learning.kafka.streams.kstream.interactivequeries.common.HostStoreInfo;
 import org.apache.kafka.common.serialization.Serializer;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.state.StreamsMetadata;
