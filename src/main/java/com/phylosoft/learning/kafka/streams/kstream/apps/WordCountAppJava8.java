@@ -1,6 +1,6 @@
 package com.phylosoft.learning.kafka.streams.kstream.apps;
 
-import com.phylosoft.learning.kafka.drivers.NothingEventDriver;
+import com.phylosoft.learning.kafka.streams.kstream.drivers.NothingEventDriver;
 import com.phylosoft.learning.kafka.streams.kstream.StreamExecutor;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
