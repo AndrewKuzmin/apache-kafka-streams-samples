@@ -1,7 +1,7 @@
-package com.phylosoft.learning.kafka.streams.dsl.apps;
+package com.phylosoft.learning.kafka.streams.kstream.apps;
 
 import com.phylosoft.learning.kafka.drivers.NothingEventDriver;
-import com.phylosoft.learning.kafka.streams.dsl.StreamExecutor;
+import com.phylosoft.learning.kafka.streams.kstream.StreamExecutor;
 
 import java.util.UUID;
 

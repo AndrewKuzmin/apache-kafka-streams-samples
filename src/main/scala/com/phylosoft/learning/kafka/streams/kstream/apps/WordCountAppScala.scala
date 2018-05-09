@@ -1,4 +1,4 @@
-package com.phylosoft.learning.kafka.streams.dsl.apps
+package com.phylosoft.learning.kafka.streams.kstream.apps
 
 import java.lang.Long
 import java.util.Properties
