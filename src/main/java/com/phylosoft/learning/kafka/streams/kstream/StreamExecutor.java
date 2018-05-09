@@ -8,6 +8,7 @@ import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 
 import java.util.Properties;
+import java.util.UUID;
 
 public class StreamExecutor {
 
@@ -17,7 +18,7 @@ public class StreamExecutor {
 
     public StreamExecutor(String[] args, String appId, EventDriver eventDriver) {
         this.args = args;
-        this.appId = appId;
+        this.appId = appId + "-" + UUID.randomUUID();
 
         this.eventDriver = eventDriver;
     }

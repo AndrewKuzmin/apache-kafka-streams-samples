@@ -11,13 +11,12 @@ import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.state.KeyValueStore;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 public class WordCountAppJava8 {
 
     public static void main(String[] args) {
 
-        new StreamExecutor(args, "wordcount-application" + UUID.randomUUID(), new NothingEventDriver())
+        new StreamExecutor(args, "wordcount-application-java8", new NothingEventDriver())
                 .run((eventDriver, builder) -> {
 
                     KStream<String, String> textLines = builder.stream("TextLinesTopic");
