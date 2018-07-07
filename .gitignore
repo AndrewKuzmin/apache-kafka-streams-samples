@@ -1,17 +1,23 @@
+.gradle
+/build/
+/out/
+!gradle/wrapper/gradle-wrapper.jar
+
 # Compiled class file
 *.class
 
 # Log file
 *.log
 
-# Intellij
-.idea/
-*.iml
+### IntelliJ IDEA ###
+.idea
 *.iws
+*.iml
 *.ipr
+/out/
 
 # Package Files #
-*.jar
+# *.jar
 *.war
 *.ear
 *.zip
