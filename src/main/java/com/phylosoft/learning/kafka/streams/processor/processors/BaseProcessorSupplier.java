@@ -38,11 +38,6 @@ public class BaseProcessorSupplier implements ProcessorSupplier<String, String> 
             }
 
             @Override
-            public void punctuate(long timestamp) {
-                // can access this.state
-            }
-
-            @Override
             public void close() {
                 // can access this.state
                 store.close();

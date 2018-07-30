@@ -4,6 +4,8 @@ import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.kstream.Transformer;
 import org.apache.kafka.streams.kstream.TransformerSupplier;
 import org.apache.kafka.streams.processor.ProcessorContext;
+import org.apache.kafka.streams.processor.PunctuationType;
+import org.apache.kafka.streams.processor.Punctuator;
 import org.apache.kafka.streams.processor.StateStore;
 
 public class BaseTransformerSupplier implements TransformerSupplier {
@@ -20,7 +22,13 @@ public class BaseTransformerSupplier implements TransformerSupplier {
             public void init(ProcessorContext context) {
                 this.context = context;
                 this.state = context.getStateStore("myTransformState");
-                context.schedule(1000); // call #punctuate() each 1000ms
+                Punctuator callback = new Punctuator() {
+                    @Override
+                    public void punctuate(long timestamp) {
+
+                    }
+                };
+                context.schedule(1000, PunctuationType.STREAM_TIME, callback); // call #punctuate() each 1000ms
             }
 
             @Override
@@ -28,11 +36,6 @@ public class BaseTransformerSupplier implements TransformerSupplier {
                 // can access this.state
                 // can emit as many new KeyValue pairs as required via this.context#forward()
                 return new KeyValue(key, value); // can emit a single value via return -- can also be null
-            }
-
-            @Override
-            public Object punctuate(long timestamp) {
-                return null;
             }
 
             @Override

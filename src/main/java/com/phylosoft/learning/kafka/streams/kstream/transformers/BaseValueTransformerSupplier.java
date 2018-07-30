@@ -3,6 +3,8 @@ package com.phylosoft.learning.kafka.streams.kstream.transformers;
 import org.apache.kafka.streams.kstream.ValueTransformer;
 import org.apache.kafka.streams.kstream.ValueTransformerSupplier;
 import org.apache.kafka.streams.processor.ProcessorContext;
+import org.apache.kafka.streams.processor.PunctuationType;
+import org.apache.kafka.streams.processor.Punctuator;
 import org.apache.kafka.streams.processor.StateStore;
 
 public class BaseValueTransformerSupplier implements ValueTransformerSupplier<String, String> {
@@ -16,7 +18,13 @@ public class BaseValueTransformerSupplier implements ValueTransformerSupplier<St
             @Override
             public void init(ProcessorContext context) {
                 this.state = context.getStateStore("myValueTransformState");
-                context.schedule(1000); // call #punctuate() each 1000ms
+                Punctuator callback = new Punctuator() {
+                    @Override
+                    public void punctuate(long timestamp) {
+
+                    }
+                };
+                context.schedule(1000, PunctuationType.STREAM_TIME, callback); // call #punctuate() each 1000ms
             }
 
             @Override
@@ -24,12 +32,6 @@ public class BaseValueTransformerSupplier implements ValueTransformerSupplier<St
                 // can access this.state
 //                return new NewValueType(); // or null
                 return null;
-            }
-
-            @Override
-            public Object punctuate(long timestamp) {
-                // can access this.state
-                return null; // don't return result -- can also be "new NewValueType()" (current key will be used to build KeyValue pair)
             }
 
             @Override
