@@ -30,6 +30,10 @@ dependencies {
 
     compile group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion
     compile group: 'org.apache.kafka', name: 'kafka-streams', version: kafkaVersion
+
+    compile group: 'org.apache.kafka', name: 'kafka-streams-scala_2.12', version: kafkaVersion
+
+
     compile group: 'org.apache.kafka', name: 'connect-api', version: kafkaVersion
     compile group: 'org.apache.kafka', name: 'connect-runtime', version: kafkaVersion
 

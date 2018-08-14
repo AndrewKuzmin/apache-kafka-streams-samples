@@ -1,43 +1,41 @@
 package com.phylosoft.learning.kafka.streams.kstream.apps
 
-import java.lang.Long
 import java.util.Properties
 import java.util.concurrent.TimeUnit
 
-import org.apache.kafka.common.serialization._
-import org.apache.kafka.common.utils.Bytes
-import org.apache.kafka.streams._
-import org.apache.kafka.streams.kstream.{KStream, KTable, Materialized, Produced}
-import org.apache.kafka.streams.state.KeyValueStore
+import org.apache.kafka.streams.kstream.Materialized
+import org.apache.kafka.streams.scala.ImplicitConversions._
+import org.apache.kafka.streams.scala._
+import org.apache.kafka.streams.scala.kstream._
+import org.apache.kafka.streams.{KafkaStreams, StreamsConfig}
 
-import scala.collection.JavaConverters.asJavaIterableConverter
+object WordCountAppScala extends App {
 
-object WordCountAppScala {
+  import Serdes._
 
-        def main(args: Array[String]) {
-                val config: Properties = {
-                        val p = new Properties()
-                        p.put(StreamsConfig.APPLICATION_ID_CONFIG, "wordcount-application")
-                        p.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-broker1:9092")
-                        p.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass)
-                        p.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass)
-                        p
-                }
+  val props: Properties = {
+    val p = new Properties()
+    p.put(StreamsConfig.APPLICATION_ID_CONFIG, "wordcount-application")
+    p.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-broker1:9092")
+    p
+  }
 
-                val builder: StreamsBuilder = new StreamsBuilder()
-                val textLines: KStream[String, String] = builder.stream("TextLinesTopic")
-                val wordCounts: KTable[String, Long] = textLines
-                  .flatMapValues(textLine => textLine.toLowerCase.split("\\W+").toIterable.asJava)
-                  .groupBy((_, word) => word)
-                  .count(Materialized.as("counts-store").asInstanceOf[Materialized[String, Long, KeyValueStore[Bytes, Array[Byte]]]])
-                wordCounts.toStream().to("WordsWithCountsTopic", Produced.`with`(Serdes.String(), Serdes.Long()))
+  val builder: StreamsBuilder = new StreamsBuilder
 
-                val streams: KafkaStreams = new KafkaStreams(builder.build(), config)
-                streams.start()
+  val textLines: KStream[String, String] = builder.stream[String, String]("TextLinesTopic")
 
-                Runtime.getRuntime.addShutdownHook(new Thread(() => {
-                        streams.close(10, TimeUnit.SECONDS)
-                }))
-        }
+  val wordCounts: KTable[String, Long] = textLines
+    .flatMapValues(textLine => textLine.toLowerCase.split("\\W+"))
+    .groupBy((_, word) => word)
+    .count()(Materialized.as("counts-store"))
+
+  wordCounts.toStream.to("WordsWithCountsTopic")
+
+  val streams: KafkaStreams = new KafkaStreams(builder.build(), props)
+  streams.start()
+
+  sys.ShutdownHookThread {
+    streams.close(10, TimeUnit.SECONDS)
+  }
 
 }
