@@ -34,8 +34,7 @@ public class StreamExecutor {
 
         StreamsBuilder builder = new StreamsBuilder();
         topologyBuilder.buildTopology(eventDriver, builder);
-        StreamsConfig config = new StreamsConfig(getProperties(args));
-        KafkaStreams streams = new KafkaStreams(builder.build(), config);
+        KafkaStreams streams = new KafkaStreams(builder.build(), getProperties(args));
 
         //
         streams.cleanUp();

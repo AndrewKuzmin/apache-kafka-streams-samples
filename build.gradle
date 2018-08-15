@@ -13,7 +13,7 @@ targetCompatibility = 1.8
 ext {
     javaVersion = '1.8'
     kafkaVersion = '2.0.0'
-    confluentVersion = '4.0.0'
+    confluentVersion = '5.0.0'
     slf4jVersion = '1.7.6'
     jettyVersion = '9.4.5.v20170502'
     jerseyVersion = '2.25.1'
@@ -27,26 +27,14 @@ repositories {
 
 dependencies {
     compile group: 'org.apache.kafka', name: 'kafka_2.12', version: kafkaVersion
-
     compile group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion
     compile group: 'org.apache.kafka', name: 'kafka-streams', version: kafkaVersion
-
     compile group: 'org.apache.kafka', name: 'kafka-streams-scala_2.12', version: kafkaVersion
-
-
-    compile group: 'org.apache.kafka', name: 'connect-api', version: kafkaVersion
-    compile group: 'org.apache.kafka', name: 'connect-runtime', version: kafkaVersion
-
-    compile group: 'io.confluent', name: 'kafka-avro-serializer', version: confluentVersion
-
-//    compile group: 'org.schwering', name: 'irclib', version: '1.10'
 
     compile 'org.scala-lang:scala-library:2.12'
 
     compile 'com.google.code.gson:gson:2.2.2'
     compile "com.google.guava:guava:$guavaVersion"
-
-    compile 'org.apache.avro:avro:1.8.1'
 
     compile 'net.jodah:lyra:0.5.2'
 
