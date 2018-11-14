@@ -53,6 +53,7 @@ dependencies {
     compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet-core', version: jerseyVersion
     compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: jerseyVersion
 
+    testCompile group: 'org.apache.kafka', name: 'kafka-streams-test-utils', version: kafkaVersion    
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
 }
