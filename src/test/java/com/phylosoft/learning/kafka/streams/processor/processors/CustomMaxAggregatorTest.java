@@ -8,12 +8,12 @@ import org.apache.kafka.streams.state.KeyValueStore;
 import org.apache.kafka.streams.state.Stores;
 import org.apache.kafka.streams.test.ConsumerRecordFactory;
 import org.apache.kafka.streams.test.OutputVerifier;
+import org.apache.kafka.test.TestUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
 import java.util.Properties;
 
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -50,7 +50,8 @@ public class CustomMaxAggregatorTest {
         config.setProperty(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         config.setProperty(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.Long().getClass().getName());
 
-        String stateDir = new File("state-dir").getAbsolutePath();
+//        String stateDir = new File("state-dir").getAbsolutePath();
+        String stateDir = TestUtils.tempDirectory().getAbsolutePath();
         config.setProperty(StreamsConfig.STATE_DIR_CONFIG, stateDir);
 
         testDriver = new TopologyTestDriver(topology, config);
