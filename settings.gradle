@@ -1,1 +1,2 @@
-rootProject.name = 'kafka-streams-samples'
+//rootProject.name = 'kafka-streams-samples'
+include 'apache-kafka-streams-examples', 'streams', 'spring-streams'

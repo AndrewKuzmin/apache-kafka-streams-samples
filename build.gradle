@@ -1,14 +1,25 @@
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'scala'
-
-group 'com.phylosoft.learning.kafka'
-jar {
-    baseName = 'kafka-streams-samples'
-    version = '0.0.1-SNAPSHOT'
+buildscript {
+    ext {
+        springBootVersion = '2.1.0.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+    apply plugin: 'idea'
+}
 
 ext {
     javaVersion = '1.8'
@@ -20,46 +31,114 @@ ext {
     guavaVersion = '22.0'
 }
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
+subprojects {
+    apply plugin: 'java'
 
-dependencies {
-    compile group: 'org.apache.kafka', name: 'kafka_2.12', version: kafkaVersion
-    compile group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion
-    compile group: 'org.apache.kafka', name: 'kafka-streams', version: kafkaVersion
-    compile group: 'org.apache.kafka', name: 'kafka-streams-scala_2.12', version: kafkaVersion
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
 
-    compile 'org.scala-lang:scala-library:2.12'
+    group 'com.phylosoft.learning.kafka'
 
-    compile 'com.google.code.gson:gson:2.2.2'
-    compile "com.google.guava:guava:$guavaVersion"
+    repositories {
+//        mavenLocal()
+        mavenCentral()
+    }
 
-    compile 'net.jodah:lyra:0.5.2'
+    dependencies {
+        compile group: 'org.apache.kafka', name: 'kafka_2.12', version: kafkaVersion
+        compile group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion
+        compile group: 'org.apache.kafka', name: 'kafka-streams', version: kafkaVersion
 
-    compile 'org.json:json:20160810'
+//        compile 'com.google.code.gson:gson:2.2.2'
+//        compile "com.google.guava:guava:$guavaVersion"
 
-    compile 'com.typesafe:config:1.3.1'
+//        compile 'org.json:json:20160810'
 
-    compile group: 'org.slf4j', name:'slf4j-api', version: slf4jVersion
-    compile group: 'org.slf4j', name:'slf4j-log4j12', version: slf4jVersion
+//        compile 'com.typesafe:config:1.3.1'
 
-    compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1-m07'
+        compile group: 'org.slf4j', name:'slf4j-api', version: slf4jVersion
+        compile group: 'org.slf4j', name:'slf4j-log4j12', version: slf4jVersion
 
-    compile group: 'org.eclipse.jetty', name: 'jetty-server', version: jettyVersion
-    compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: jettyVersion
+        testCompile group: 'org.apache.kafka', name: 'kafka-streams-test-utils', version: kafkaVersion
+        testCompile group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion, classifier: 'test'
+        
+        testCompile group: 'junit', name: 'junit', version: '4.12'
 
-    compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet-core', version: jerseyVersion
-    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: jerseyVersion
-
-    testCompile group: 'org.apache.kafka', name: 'kafka-streams-test-utils', version: kafkaVersion
-    testCompile group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion, classifier: 'test'    
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
 
 }
 
+project(':apache-kafka-streams-examples') {
 
-jar {
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    jar {
+        baseName = 'apache-kafka-streams-examples'
+        version = '0.0.1-SNAPSHOT'
+//        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    }
+
+//    dependencies {
+//    }
+
+}
+
+//configure(subprojects.findAll { (it.name == "streams") }) {
+//    apply plugin: 'scala'
+//    apply plugin: 'application'
+//}
+
+project(':streams') {
+    apply plugin: "scala"
+//    apply plugin: 'application'
+    
+    jar {
+        baseName = 'streams'
+        version = '0.0.1-SNAPSHOT'
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    }
+
+    dependencies {
+        compile group: 'org.apache.kafka', name: 'kafka-streams-scala_2.12', version: kafkaVersion
+
+        compile 'org.scala-lang:scala-library:2.12'
+        compile 'net.jodah:lyra:0.5.2'
+
+        compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1-m07'
+
+        compile group: 'org.eclipse.jetty', name: 'jetty-server', version: jettyVersion
+        compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: jettyVersion
+
+        compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet-core', version: jerseyVersion
+        compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: jerseyVersion
+    }
+    repositories {
+        mavenCentral()
+    }
+
+}
+
+project(':spring-streams') {
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    jar {
+        baseName = 'spring-streams'
+        version = '0.0.1-SNAPSHOT'
+//        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    }
+
+    configurations.all {
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
+
+    dependencies {
+//    implementation('org.springframework.boot:spring-boot-starter')
+        implementation('org.springframework.boot:spring-boot-starter-web')
+        implementation('org.springframework.kafka:spring-kafka')
+//    implementation('org.apache.kafka:kafka-streams')
+//        compileOnly('org.projectlombok:lombok')
+//        implementation('org.apache.kafka:kafka-streams')
+
+        testImplementation('org.springframework.boot:spring-boot-starter-test')
+    }
+
 }
