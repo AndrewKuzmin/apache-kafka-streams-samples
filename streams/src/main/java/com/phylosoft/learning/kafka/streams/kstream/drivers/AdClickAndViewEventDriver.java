@@ -1,7 +1,7 @@
 package com.phylosoft.learning.kafka.streams.kstream.drivers;
 
-import de.codecentric.kafka.streams.model.AdClickEvent;
-import de.codecentric.kafka.streams.model.AdViewEvent;
+import com.phylosoft.learning.kafka.common.model.AdClickEvent;
+import com.phylosoft.learning.kafka.common.model.AdViewEvent;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -29,13 +29,13 @@ final public class AdClickAndViewEventDriver implements EventDriver {
         Properties viewProps = new Properties();
         viewProps.put("bootstrap.servers", "localhost:9092");
         viewProps.put("key.serializer", "org.apache.kafka.common.serialization.LongSerializer");
-        viewProps.put("value.serializer", "de.codecentric.kafka.streams.serde.AdViewEventSerializer");
+        viewProps.put("value.serializer", "com.phylosoft.learning.kafka.common.serde.AdViewEventSerializer");
         viewProps.put("linger.ms", 0);
 
         Properties clickProps = new Properties();
         clickProps.put("bootstrap.servers", "localhost:9092");
         clickProps.put("key.serializer", "org.apache.kafka.common.serialization.LongSerializer");
-        clickProps.put("value.serializer", "de.codecentric.kafka.streams.serde.AdClickEventSerializer");
+        clickProps.put("value.serializer", "com.phylosoft.learning.kafka.common.serde.AdClickEventSerializer");
         clickProps.put("linger.ms", 10000);
 
         viewProducer = new KafkaProducer<>(viewProps);
