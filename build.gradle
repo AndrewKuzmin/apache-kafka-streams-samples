@@ -14,9 +14,9 @@ buildscript {
     }
 }
 
-plugins {
-    id 'net.ltgt.apt' version '0.10'
-}
+//plugins {
+//    id 'net.ltgt.apt' version '0.10'
+//}
 
 allprojects {
     repositories {
@@ -110,6 +110,7 @@ project(':streams') {
         compile 'net.jodah:lyra:0.5.2'
 
         compileOnly 'org.projectlombok:lombok:1.18.4'
+        annotationProcessor 'org.projectlombok:lombok:1.18.4'
 
         compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1-m07'
 
