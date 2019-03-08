@@ -27,7 +27,7 @@ allprojects {
 
 ext {
     javaVersion = '1.8'
-    kafkaVersion = '2.1.0'
+    kafkaVersion = '2.1.1'
     confluentVersion = '5.0.0'
     slf4jVersion = '1.7.6'
     jettyVersion = '9.4.5.v20170502'
@@ -71,24 +71,6 @@ subprojects {
     }
 
 }
-
-project(':apache-kafka-streams-examples') {
-
-    jar {
-        baseName = 'apache-kafka-streams-examples'
-        version = '0.0.1-SNAPSHOT'
-//        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    }
-
-//    dependencies {
-//    }
-
-}
-
-//configure(subprojects.findAll { (it.name == "streams") }) {
-//    apply plugin: 'scala'
-//    apply plugin: 'application'
-//}
 
 project(':streams') {
     apply plugin: "scala"
