@@ -17,7 +17,7 @@ allprojects {
 
 ext {
     javaVersion = '1.8'
-    kafkaVersion = '2.1.1'
+    kafkaVersion = '2.2.0'
     confluentVersion = '5.0.0'
     slf4jVersion = '1.7.6'
     jettyVersion = '9.4.5.v20170502'
