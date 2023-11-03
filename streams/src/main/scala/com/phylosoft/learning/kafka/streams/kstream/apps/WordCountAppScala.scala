@@ -17,7 +17,7 @@ object WordCountAppScala extends App {
   val props: Properties = {
     val p = new Properties()
     p.put(StreamsConfig.APPLICATION_ID_CONFIG, "wordcount-application")
-    p.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka-broker1:9092")
+    p.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
     p
   }
 

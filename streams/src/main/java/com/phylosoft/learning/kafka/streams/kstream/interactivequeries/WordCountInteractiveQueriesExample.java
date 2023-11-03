@@ -18,14 +18,14 @@ package com.phylosoft.learning.kafka.streams.kstream.interactivequeries;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
-import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.streams.kstream.Grouped;
 import org.apache.kafka.streams.kstream.KGroupedStream;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Materialized;
-import org.apache.kafka.streams.kstream.Serialized;
 import org.apache.kafka.streams.kstream.TimeWindows;
 import org.apache.kafka.streams.state.HostInfo;
 import org.apache.kafka.streams.state.KeyValueStore;
@@ -33,6 +33,8 @@ import org.apache.kafka.streams.state.WindowStore;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -219,7 +221,7 @@ public class WordCountInteractiveQueriesExample {
 
     final KGroupedStream<String, String> groupedByWord = textLines
             .flatMapValues(value -> Arrays.asList(value.toLowerCase().split("\\W+")))
-            .groupBy((key, word) -> word, Serialized.with(stringSerde, stringSerde));
+            .groupBy((key, word) -> word, Grouped.with(stringSerde, stringSerde));
 
     // Create a State Store for with the all time word count
     groupedByWord.count(Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as("word-count")
@@ -227,7 +229,7 @@ public class WordCountInteractiveQueriesExample {
 
     // Create a Windowed State Store that contains the word count for every
     // 1 minute
-    groupedByWord.windowedBy(TimeWindows.of(60000))
+    groupedByWord.windowedBy(TimeWindows.ofSizeWithNoGrace(Duration.of(60000, ChronoUnit.MICROS)))
             .count(Materialized.<String, Long, WindowStore<Bytes, byte[]>>as("windowed-word-count")
                     .withValueSerde(Serdes.Long()));
 

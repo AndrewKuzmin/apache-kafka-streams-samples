@@ -16,8 +16,8 @@ allprojects {
 }
 
 ext {
-    javaVersion = '1.8'
-    kafkaVersion = '2.2.0'
+    javaVersion = '11'
+    kafkaVersion = '3.6.0'
     confluentVersion = '5.0.0'
     slf4jVersion = '1.7.6'
     jettyVersion = '9.4.5.v20170502'
@@ -28,8 +28,8 @@ ext {
 subprojects {
     apply plugin: 'java'
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 11
+    targetCompatibility = 11
 
     group 'com.phylosoft.learning.kafka'
 
@@ -39,24 +39,24 @@ subprojects {
     }
 
     dependencies {
-        compile group: 'org.apache.kafka', name: 'kafka_2.12', version: kafkaVersion
-        compile group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion
-        compile group: 'org.apache.kafka', name: 'kafka-streams', version: kafkaVersion
+        implementation group: 'org.apache.kafka', name: 'kafka_2.12', version: kafkaVersion
+        implementation group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion
+        implementation group: 'org.apache.kafka', name: 'kafka-streams', version: kafkaVersion
 
-//        compile 'com.google.code.gson:gson:2.2.2'
-//        compile "com.google.guava:guava:$guavaVersion"
+//        implementation 'com.google.code.gson:gson:2.2.2'
+//        implementation "com.google.guava:guava:$guavaVersion"
 
-//        compile 'org.json:json:20160810'
+//        implementation 'org.json:json:20160810'
 
-//        compile 'com.typesafe:config:1.3.1'
+//        implementation 'com.typesafe:config:1.3.1'
 
-        compile group: 'org.slf4j', name:'slf4j-api', version: slf4jVersion
-        compile group: 'org.slf4j', name:'slf4j-log4j12', version: slf4jVersion
+        implementation group: 'org.slf4j', name:'slf4j-api', version: slf4jVersion
+        implementation group: 'org.slf4j', name:'slf4j-log4j12', version: slf4jVersion
 
-        testCompile group: 'org.apache.kafka', name: 'kafka-streams-test-utils', version: kafkaVersion
-        testCompile group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion, classifier: 'test'
+        testImplementation group: 'org.apache.kafka', name: 'kafka-streams-test-utils', version: kafkaVersion
+        testImplementation group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion, classifier: 'test'
         
-        testCompile group: 'junit', name: 'junit', version: '4.12'
+        testImplementation group: 'junit', name: 'junit', version: '4.12'
 
     }
 
@@ -76,21 +76,21 @@ project(':streams') {
     }
 
     dependencies {
-        compile group: 'org.apache.kafka', name: 'kafka-streams-scala_2.12', version: kafkaVersion
+        implementation group: 'org.apache.kafka', name: 'kafka-streams-scala_2.12', version: kafkaVersion
 
-        compile 'org.scala-lang:scala-library:2.12'
-        compile 'net.jodah:lyra:0.5.2'
+        implementation 'org.scala-lang:scala-library:2.12'
+        implementation 'net.jodah:lyra:0.5.2'
 
         compileOnly 'org.projectlombok:lombok:1.18.4'
         annotationProcessor 'org.projectlombok:lombok:1.18.4'
 
-        compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1-m07'
+        implementation group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1-m07'
 
-        compile group: 'org.eclipse.jetty', name: 'jetty-server', version: jettyVersion
-        compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: jettyVersion
+        implementation group: 'org.eclipse.jetty', name: 'jetty-server', version: jettyVersion
+        implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version: jettyVersion
 
-        compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet-core', version: jerseyVersion
-        compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: jerseyVersion
+        implementation group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet-core', version: jerseyVersion
+        implementation group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: jerseyVersion
     }
     repositories {
         mavenCentral()
