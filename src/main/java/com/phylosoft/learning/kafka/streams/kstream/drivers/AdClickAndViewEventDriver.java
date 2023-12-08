@@ -2,6 +2,7 @@ package com.phylosoft.learning.kafka.streams.kstream.drivers;
 
 import com.phylosoft.learning.kafka.common.model.AdClickEvent;
 import com.phylosoft.learning.kafka.common.model.AdViewEvent;
+import lombok.Getter;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -13,7 +14,9 @@ final public class AdClickAndViewEventDriver implements EventDriver {
 
     final private int viewPartition;
     final private int clickPartition;
+    @Getter
     final private String viewTopic;
+    @Getter
     final private String clickTopic;
 
     final private Producer<Long, AdViewEvent> viewProducer;

@@ -5,4 +5,12 @@ public interface EventDriver {
 
     void sendEvents();
 
+    default String getViewTopic() {
+        return "";
+    }
+
+    default String getClickTopic() {
+        return "";
+    }
+
 }

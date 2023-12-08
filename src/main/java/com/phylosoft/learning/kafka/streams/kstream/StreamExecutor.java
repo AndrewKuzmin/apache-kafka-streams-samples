@@ -33,7 +33,7 @@ public class StreamExecutor {
         }
 
         StreamsBuilder builder = new StreamsBuilder();
-        topologyBuilder.buildTopology(eventDriver, builder);
+        topologyBuilder.buildTopology(eventDriver.getViewTopic(), eventDriver.getClickTopic(), builder);
         KafkaStreams streams = new KafkaStreams(builder.build(), getProperties(args));
 
         //

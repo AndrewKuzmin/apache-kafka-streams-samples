@@ -6,6 +6,6 @@ import org.apache.kafka.streams.StreamsBuilder;
 @FunctionalInterface
 public interface TopologyBuilder {
 
-    void buildTopology(EventDriver eventDriver, StreamsBuilder builder);
+    void buildTopology(String viewTopic, String clickTopic, StreamsBuilder builder);
 
 }

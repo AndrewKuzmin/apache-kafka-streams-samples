@@ -1,4 +1,4 @@
-package com.phylosoft.learning.kafka.streams.kstream.apps;
+package com.phylosoft.learning.kafka.streams.kstream.apps.basic;
 
 import com.phylosoft.learning.kafka.streams.kstream.drivers.NothingEventDriver;
 import com.phylosoft.learning.kafka.streams.kstream.StreamExecutor;
@@ -14,7 +14,7 @@ public class WordCountAppJava7 {
     public static void main(String[] args) {
 
         new StreamExecutor(args, "wordcount-application-java7", new NothingEventDriver())
-                .run((eventDriver, builder) -> {
+                .run((viewTopic, clickTopic, builder) -> {
 
                     KStream<String, String> textLines = builder.stream("TextLinesTopic");
                     KTable<String, Long> wordCounts = textLines

@@ -25,7 +25,7 @@ ext.slf4jVersion = '1.7.6'
 version = ext.kafkaVersion
 
 dependencies {
-    implementation group: 'org.apache.kafka', name: 'kafka_2.12', version: kafkaVersion
+    implementation group: 'org.apache.kafka', name: 'kafka_2.13', version: kafkaVersion
     implementation group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion
     implementation group: 'org.apache.kafka', name: 'kafka-streams', version: kafkaVersion
     implementation group: 'org.apache.kafka', name: 'connect-json', version: kafkaVersion
