@@ -23,24 +23,12 @@ final public class AdClickAndViewEventDriver implements EventDriver {
 
         this.viewPartition = viewPartition;
         this.clickPartition = clickPartition;
-        this.viewTopic = "view" + UUID.randomUUID().toString();
-        this.clickTopic = "click" + UUID.randomUUID().toString();
 
-        Properties viewProps = new Properties();
-        viewProps.put("bootstrap.servers", "localhost:9092");
-        viewProps.put("key.serializer", "org.apache.kafka.common.serialization.LongSerializer");
-        viewProps.put("value.serializer", "com.phylosoft.learning.kafka.common.serde.AdViewEventSerializer");
-        viewProps.put("linger.ms", 0);
+        this.viewTopic = "view" + UUID.randomUUID();
+        this.clickTopic = "click" + UUID.randomUUID();
 
-        Properties clickProps = new Properties();
-        clickProps.put("bootstrap.servers", "localhost:9092");
-        clickProps.put("key.serializer", "org.apache.kafka.common.serialization.LongSerializer");
-        clickProps.put("value.serializer", "com.phylosoft.learning.kafka.common.serde.AdClickEventSerializer");
-        clickProps.put("linger.ms", 10000);
-
-        viewProducer = new KafkaProducer<>(viewProps);
-        clickProducer = new KafkaProducer<>(clickProps);
-
+        viewProducer = buildViewProducer();
+        clickProducer = buildClickProducer();
     }
 
     public void sendEvents() {
@@ -62,7 +50,6 @@ final public class AdClickAndViewEventDriver implements EventDriver {
         sendView(5, "duplicate view event2", 1);
         sendClick(5, 1000);
 
-
         sendView(6, "duplicate click 500 ms and 800 ms after view", 0);
         sendClick(6, 500);
 
@@ -72,6 +59,26 @@ final public class AdClickAndViewEventDriver implements EventDriver {
             e.printStackTrace();
         }*/
         sendClick(6, 800);
+    }
+
+    private Producer<Long, AdViewEvent> buildViewProducer() {
+        Properties viewProps = new Properties();
+        viewProps.put("bootstrap.servers", "localhost:9092");
+        viewProps.put("key.serializer", "org.apache.kafka.common.serialization.LongSerializer");
+        viewProps.put("value.serializer", "com.phylosoft.learning.kafka.common.serde.AdViewEventSerializer");
+        viewProps.put("linger.ms", 0);
+
+        return new KafkaProducer<>(viewProps);
+    }
+
+    private Producer<Long, AdClickEvent> buildClickProducer() {
+        Properties clickProps = new Properties();
+        clickProps.put("bootstrap.servers", "localhost:9092");
+        clickProps.put("key.serializer", "org.apache.kafka.common.serialization.LongSerializer");
+        clickProps.put("value.serializer", "com.phylosoft.learning.kafka.common.serde.AdClickEventSerializer");
+        clickProps.put("linger.ms", 10000);
+
+        return new KafkaProducer<>(clickProps);
     }
 
     private void sendView(long adDeliveryId, String adId, long timestamp) {

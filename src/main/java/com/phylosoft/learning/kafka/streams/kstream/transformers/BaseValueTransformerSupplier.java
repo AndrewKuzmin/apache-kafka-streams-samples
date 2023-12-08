@@ -7,6 +7,8 @@ import org.apache.kafka.streams.processor.PunctuationType;
 import org.apache.kafka.streams.processor.Punctuator;
 import org.apache.kafka.streams.processor.StateStore;
 
+import java.time.Duration;
+
 public class BaseValueTransformerSupplier implements ValueTransformerSupplier<String, String> {
 
     @Override
@@ -24,7 +26,7 @@ public class BaseValueTransformerSupplier implements ValueTransformerSupplier<St
 
                     }
                 };
-                context.schedule(1000, PunctuationType.STREAM_TIME, callback); // call #punctuate() each 1000ms
+                context.schedule(Duration.ofSeconds(1), PunctuationType.STREAM_TIME, callback); // call #punctuate() each 1000ms
             }
 
             @Override
