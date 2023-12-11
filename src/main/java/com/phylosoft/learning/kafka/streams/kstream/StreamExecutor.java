@@ -6,6 +6,7 @@ import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.Topology;
 
 import java.util.Properties;
 import java.util.UUID;
@@ -34,7 +35,9 @@ public class StreamExecutor {
 
         StreamsBuilder builder = new StreamsBuilder();
         topologyBuilder.buildTopology(eventDriver.getViewTopic(), eventDriver.getClickTopic(), builder);
-        KafkaStreams streams = new KafkaStreams(builder.build(), getProperties(args));
+        Topology topology = builder.build();
+        System.out.println(topology.describe());
+        KafkaStreams streams = new KafkaStreams(topology, getProperties(args));
 
         //
         streams.cleanUp();

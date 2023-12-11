@@ -9,6 +9,7 @@ import com.phylosoft.learning.kafka.streams.kstream.drivers.AdClickAndViewEventD
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KTable;
+import org.apache.kafka.streams.kstream.Printed;
 
 /**
  * Created by Andrew on 12/8/2023.
@@ -25,7 +26,7 @@ public class InnerJoinTableApp {
                             builder.table(clickTopic, Consumed.with(Serdes.Long(), AdSerdes.AD_CLICK_SERDE));
                     KTable<Long, AdClickAndViewEvent> innerJoin =
                             viewStream.join(clickStream, (view, click) -> new AdClickAndViewEvent(view, click));
-//                    innerJoin.print();
+                    innerJoin.toStream().print(Printed.toSysOut());
                 });
 
     }
