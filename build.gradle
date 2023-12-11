@@ -19,9 +19,6 @@ repositories {
     mavenCentral()
 }
 
-ext.kafkaVersion = '3.6.1'
-ext.slf4jVersion = '1.7.6'
-
 version = ext.kafkaVersion
 
 dependencies {
@@ -33,8 +30,8 @@ dependencies {
     implementation group: 'org.slf4j', name:'slf4j-api', version: slf4jVersion
     implementation group: 'org.slf4j', name:'slf4j-log4j12', version: slf4jVersion
 
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     testImplementation group: 'org.apache.kafka', name: 'kafka-clients', version: kafkaVersion, classifier: 'test'
     testImplementation group: 'org.apache.kafka', name: 'kafka-streams-test-utils', version: kafkaVersion
