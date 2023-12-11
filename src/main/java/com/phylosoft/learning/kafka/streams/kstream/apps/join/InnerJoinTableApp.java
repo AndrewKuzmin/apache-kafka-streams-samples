@@ -20,12 +20,12 @@ public class InnerJoinTableApp {
 
         new StreamExecutor(args, "InnerJoinTableApp", new AdClickAndViewEventDriver(0, 0))
                 .run((viewTopic, clickTopic, builder) -> {
-                    KTable<Long, AdViewEvent> viewStream =
+                    KTable<Long, AdViewEvent> viewTable =
                             builder.table(viewTopic, Consumed.with(Serdes.Long(), AdSerdes.AD_VIEW_SERDE));
-                    KTable<Long, AdClickEvent> clickStream =
+                    KTable<Long, AdClickEvent> clickTable =
                             builder.table(clickTopic, Consumed.with(Serdes.Long(), AdSerdes.AD_CLICK_SERDE));
                     KTable<Long, AdClickAndViewEvent> innerJoin =
-                            viewStream.join(clickStream, (view, click) -> new AdClickAndViewEvent(view, click));
+                            viewTable.join(clickTable, AdClickAndViewEvent::new);
                     innerJoin.toStream().print(Printed.toSysOut());
                 });
 

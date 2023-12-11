@@ -12,21 +12,21 @@ import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Printed;
 
 /**
- * Created by Andrew on 12/8/2023.
+ * Created by Andrew on 12/11/2023.
  */
-public class LeftJoinTableApp {
+public class OuterJoinTableApp {
 
     public static void main(String[] args) {
 
-        new StreamExecutor(args, "LeftJoinTableApp", new AdClickAndViewEventDriver(0, 0))
+        new StreamExecutor(args, "OuterJoinTableApp", new AdClickAndViewEventDriver(0, 0))
                 .run((viewTopic, clickTopic, builder) -> {
                     KTable<Long, AdViewEvent> viewTable =
                             builder.table(viewTopic, Consumed.with(Serdes.Long(), AdSerdes.AD_VIEW_SERDE));
                     KTable<Long, AdClickEvent> clickTable =
                             builder.table(clickTopic, Consumed.with(Serdes.Long(), AdSerdes.AD_CLICK_SERDE));
-                    KTable<Long, AdClickAndViewEvent> leftJoin =
-                            viewTable.leftJoin(clickTable, AdClickAndViewEvent::new);
-                    leftJoin.toStream().print(Printed.toSysOut());
+                    KTable<Long, AdClickAndViewEvent> outerJoin =
+                            viewTable.outerJoin(clickTable, AdClickAndViewEvent::new);
+                    outerJoin.toStream().print(Printed.toSysOut());
                 });
 
     }
