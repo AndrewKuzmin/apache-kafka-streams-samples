@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AdClickAndViewEvent {
+public class AdViewAndAdClickEvent {
 
     private AdViewEvent viewEvent;
     private AdClickEvent clickEvent;
@@ -20,7 +20,7 @@ public class AdClickAndViewEvent {
 
     @Override
     public String toString() {
-        return "AdClickAndViewEvent{" +
+        return "AdViewAndAdClickEvent{" +
                 "viewEvent=" + viewEvent +
                 ", clickEvent=" + clickEvent +
                 '}';

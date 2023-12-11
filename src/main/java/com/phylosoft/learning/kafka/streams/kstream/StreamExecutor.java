@@ -24,7 +24,7 @@ public class StreamExecutor {
         this.eventDriver = eventDriver;
     }
 
-    public void run(TopologyBuilder topologyBuilder) {
+    public void run(AdViewAndAdClickTopologyBuilder topologyBuilder) {
         eventDriver.sendEvents();
 
         try {

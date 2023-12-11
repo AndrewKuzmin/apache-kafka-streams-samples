@@ -1,6 +1,6 @@
 package com.phylosoft.learning.kafka.streams.kstream.apps.join;
 
-import com.phylosoft.learning.kafka.common.model.AdClickAndViewEvent;
+import com.phylosoft.learning.kafka.common.model.AdViewAndAdClickEvent;
 import com.phylosoft.learning.kafka.common.model.AdClickEvent;
 import com.phylosoft.learning.kafka.common.model.AdViewEvent;
 import com.phylosoft.learning.kafka.common.serde.AdSerdes;
@@ -24,8 +24,8 @@ public class OuterJoinTableApp {
                             builder.table(viewTopic, Consumed.with(Serdes.Long(), AdSerdes.AD_VIEW_SERDE));
                     KTable<Long, AdClickEvent> clickTable =
                             builder.table(clickTopic, Consumed.with(Serdes.Long(), AdSerdes.AD_CLICK_SERDE));
-                    KTable<Long, AdClickAndViewEvent> outerJoin =
-                            viewTable.outerJoin(clickTable, AdClickAndViewEvent::new);
+                    KTable<Long, AdViewAndAdClickEvent> outerJoin =
+                            viewTable.outerJoin(clickTable, AdViewAndAdClickEvent::new);
                     outerJoin.toStream().print(Printed.toSysOut());
                 });
 
