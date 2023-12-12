@@ -14,7 +14,7 @@ public class WordCountAppJava7 {
     public static void main(String[] args) {
 
         new StreamExecutor(args, "wordcount-application-java7", new NothingEventDriver())
-                .run((viewTopic, clickTopic, builder) -> {
+                .run((builder) -> {
 
                     KStream<String, String> textLines = builder.stream("TextLinesTopic");
                     KTable<String, Long> wordCounts = textLines

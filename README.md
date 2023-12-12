@@ -17,6 +17,7 @@ Apache Kafka Stream samples
                 - Join co-partitioning requirements
                 - KStream-KStream Join
                 - KTable-KTable Join
+                - KTable-KTable Foreign-Key Join
                 - KStream-KTable Join
                 - KStream-GlobalKTable Join
             - Windowing
@@ -24,12 +25,14 @@ Apache Kafka Stream samples
                 - Hopping time windows
                 - Sliding time windows
                 - Session Windows
+                - Window Final Results
+                - Window duration and joins
 
         - Applying processors and transformers (Processor API integration)
 
+    - Controlling KTable emit rate
+ 
     - Writing streams back to Kafka
-
-    - Kafka Streams DSL for Scala
 
 - Processor API
 

@@ -11,19 +11,18 @@ import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Printed;
 
-/**
- * Created by Andrew on 12/8/2023.
- */
 public class LeftJoinTableApp {
 
     public static void main(String[] args) {
 
-        new StreamExecutor(args, "LeftJoinTableApp", new AdClickAndViewEventDriver(0, 0))
-                .run((viewTopic, clickTopic, builder) -> {
+        var eventDriver = new AdClickAndViewEventDriver(0, 0);
+
+        new StreamExecutor(args, "LeftJoinTableApp", eventDriver)
+                .run((builder) -> {
                     KTable<Long, AdViewEvent> viewTable =
-                            builder.table(viewTopic, Consumed.with(Serdes.Long(), AdSerdes.AD_VIEW_SERDE));
+                            builder.table(eventDriver.getViewTopic(), Consumed.with(Serdes.Long(), AdSerdes.AD_VIEW_SERDE));
                     KTable<Long, AdClickEvent> clickTable =
-                            builder.table(clickTopic, Consumed.with(Serdes.Long(), AdSerdes.AD_CLICK_SERDE));
+                            builder.table(eventDriver.getClickTopic(), Consumed.with(Serdes.Long(), AdSerdes.AD_CLICK_SERDE));
                     KTable<Long, AdViewAndAdClickEvent> leftJoin =
                             viewTable.leftJoin(clickTable, AdViewAndAdClickEvent::new);
                     leftJoin.toStream().print(Printed.toSysOut());

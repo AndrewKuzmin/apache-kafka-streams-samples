@@ -8,7 +8,7 @@ public class PipeApp {
     public static void main(String[] args) {
 
         new StreamExecutor(args, "streams-pipe", new NothingEventDriver())
-                .run((viewTopic, clickTopic, builder) -> {
+                .run((builder) -> {
 
                     builder.stream("streams-file-input").to("streams-pipe-output");
 

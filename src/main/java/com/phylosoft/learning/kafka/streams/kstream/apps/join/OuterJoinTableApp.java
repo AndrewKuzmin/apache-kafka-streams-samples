@@ -11,19 +11,18 @@ import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Printed;
 
-/**
- * Created by Andrew on 12/11/2023.
- */
 public class OuterJoinTableApp {
 
     public static void main(String[] args) {
 
-        new StreamExecutor(args, "OuterJoinTableApp", new AdClickAndViewEventDriver(0, 0))
-                .run((viewTopic, clickTopic, builder) -> {
+        var eventDriver = new AdClickAndViewEventDriver(0, 0);
+
+        new StreamExecutor(args, "OuterJoinTableApp", eventDriver)
+                .run((builder) -> {
                     KTable<Long, AdViewEvent> viewTable =
-                            builder.table(viewTopic, Consumed.with(Serdes.Long(), AdSerdes.AD_VIEW_SERDE));
+                            builder.table(eventDriver.getViewTopic(), Consumed.with(Serdes.Long(), AdSerdes.AD_VIEW_SERDE));
                     KTable<Long, AdClickEvent> clickTable =
-                            builder.table(clickTopic, Consumed.with(Serdes.Long(), AdSerdes.AD_CLICK_SERDE));
+                            builder.table(eventDriver.getClickTopic(), Consumed.with(Serdes.Long(), AdSerdes.AD_CLICK_SERDE));
                     KTable<Long, AdViewAndAdClickEvent> outerJoin =
                             viewTable.outerJoin(clickTable, AdViewAndAdClickEvent::new);
                     outerJoin.toStream().print(Printed.toSysOut());

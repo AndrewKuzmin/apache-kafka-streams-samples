@@ -1,6 +1,7 @@
 package com.phylosoft.learning.kafka.streams.kstream;
 
 import com.phylosoft.learning.kafka.streams.kstream.drivers.EventDriver;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
@@ -11,6 +12,7 @@ import org.apache.kafka.streams.Topology;
 import java.util.Properties;
 import java.util.UUID;
 
+@Slf4j
 public class StreamExecutor {
 
     final private String[] args;
@@ -24,7 +26,7 @@ public class StreamExecutor {
         this.eventDriver = eventDriver;
     }
 
-    public void run(AdViewAndAdClickTopologyBuilder topologyBuilder) {
+    public void run(TopologyBuilder topologyBuilder) {
         eventDriver.sendEvents();
 
         try {
@@ -34,9 +36,11 @@ public class StreamExecutor {
         }
 
         StreamsBuilder builder = new StreamsBuilder();
-        topologyBuilder.buildTopology(eventDriver.getViewTopic(), eventDriver.getClickTopic(), builder);
+        topologyBuilder.buildTopology(builder);
         Topology topology = builder.build();
-        System.out.println(topology.describe());
+
+        log.debug(topology.describe().toString());
+
         KafkaStreams streams = new KafkaStreams(topology, getProperties(args));
 
         //
